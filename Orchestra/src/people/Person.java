@@ -6,6 +6,7 @@ public class Person {
 
     /**
      * Constructor for Person class.
+     *
      * @param name name of this person.
      */
     public Person(String name){
@@ -14,6 +15,7 @@ public class Person {
 
     /**
      * Getter for name.
+     * s
      * @return name of this person.
      */
     public String getName() {return name;}
