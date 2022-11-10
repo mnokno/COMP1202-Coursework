@@ -83,7 +83,7 @@ public class Instrumentalist extends Person implements Musician {
             this.notes.add(note);
         }
         // loads loudness
-        loudness = Tables.table1.get(instrumentID)[soft ? 0 : 1];
+        loudness = Tables.idToLoudness.get(instrumentID)[soft ? 0 : 1];
         // initiates iterator
         nextNote = this.notes.iterator();
     }
