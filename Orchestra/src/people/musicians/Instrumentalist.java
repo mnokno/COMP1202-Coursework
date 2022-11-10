@@ -53,8 +53,8 @@ public class Instrumentalist extends Person implements Musician {
      */
     @Override
     public void setSeat(int seat) {
-        // clams the value between 0 and 16
-        this.seat = (byte)Math.max(0, Math.min(seat, 16));
+        // clams the value between 0 and 15
+        this.seat = Math.max(0, Math.min(seat, 15));
         // updates sound system
         soundSystem.setInstrument(seat, instrumentID);
     }
