@@ -60,6 +60,16 @@ public class Instrumentalist extends Person implements Musician {
     }
 
     /**
+     * Getter for seat.
+     *
+     * @return return this musicians seat.
+     */
+    @Override
+    public int getSeat() {
+        return seat;
+    }
+
+    /**
      * Reads musicians score represented in the notes array.
      *
      * @param notes Score/notes to be read.
@@ -85,9 +95,8 @@ public class Instrumentalist extends Person implements Musician {
      */
     @Override
     public void playNextNote() {
-        Integer noteToPlay = nextNote.next();
-        if (noteToPlay != null){
-            soundSystem.playNote(seat, noteToPlay, loudness);
+        if (nextNote.hasNext()){
+            soundSystem.playNote(seat, nextNote.next(), loudness);
         }
     }
 }

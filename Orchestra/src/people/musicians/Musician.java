@@ -3,11 +3,19 @@ package people.musicians;
 public interface Musician {
 
     /**
-     * Sets a set for this musician.
+     * Setter for seat.
      *
      * @param seat Seat for this musician, assumed to be between 0 and 15.
      */
     abstract void setSeat(int seat);
+
+
+    /**
+     * Getter for seat.
+     *
+     * @return return this musicians seat.
+     */
+    abstract int getSeat();
 
     /**
      * Reads musicians score represented in the notes array.
