@@ -15,7 +15,7 @@ public class Instrumentalist extends Person implements Musician {
     private List<Integer> notes;
     private Iterator<Integer> nextNote;
     private SoundSystem soundSystem;
-    private byte seat;
+    private int seat;
     private int loudness;
 
     /**
