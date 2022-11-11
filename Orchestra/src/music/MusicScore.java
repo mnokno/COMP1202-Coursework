@@ -28,7 +28,7 @@ public class MusicScore {
      */
     public int getInstrumentID() {
         // Assumes that the instrumentName is valid
-        return Tables.idToLoudness.get(Tables.nameToID.get(instrumentName))[soft ? 0 : 1];
+        return Tables.nameToID.get(instrumentName);
     }
 
     /**
