@@ -73,7 +73,7 @@ public class Conductor extends Person {
         for (int i = 0; i < composition.getLength(); i++){
             try{
                 orchestra.playNextNote();
-                Thread.sleep(500);
+                Thread.sleep(composition.getNoteLength());
             }
             catch (InterruptedException e){
                 System.out.println(e.toString());

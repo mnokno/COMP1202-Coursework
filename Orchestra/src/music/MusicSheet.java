@@ -2,7 +2,6 @@ package music;
 
 import utils.Tables;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MusicSheet implements Composition {
@@ -82,7 +81,13 @@ public class MusicSheet implements Composition {
      */
     @Override
     public int getLength() {
-        return length;
+        int max = 0;
+        for (MusicScore musicScore : musicScores){
+            if (max < musicScore.getNotes().length){
+                max = musicScore.getNotes().length;
+            }
+        }
+        return max;
     }
 
     /**

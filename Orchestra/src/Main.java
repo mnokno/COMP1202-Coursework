@@ -24,11 +24,11 @@ public class Main {
             System.out.println("playing");
             for (int i = 0; i < notes.length; i++){
                 tom.playNextNote();
-                Thread.sleep(500);
-                jack.playNextNote();
-                Thread.sleep(500);
-                emma.playNextNote();
-                Thread.sleep(500);
+                Thread.sleep(250);
+                //jack.playNextNote();
+                //Thread.sleep(500);
+                //emma.playNextNote();
+                //Thread.sleep(500);
             }
             System.out.println("finished");
         }

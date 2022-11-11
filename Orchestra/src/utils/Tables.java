@@ -189,5 +189,7 @@ public final class Tables {
         put("A#0", 22);
         put("Bb0", 22);
         put("A0", 21);
+        put("none", 0);
+        put(" none ", 0);
     }};
 }
