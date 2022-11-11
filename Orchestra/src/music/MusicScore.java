@@ -26,7 +26,7 @@ public class MusicScore {
      *
      * @return instrumentID
      */
-    public Integer getInstrumentID() {
+    public int getInstrumentID() {
         // Assumes that the instrumentName is valid
         return Tables.idToLoudness.get(Tables.nameToID.get(instrumentName))[soft ? 0 : 1];
     }
@@ -43,5 +43,5 @@ public class MusicScore {
      *
      * @return soft
      */
-    public boolean getSoft() {return soft;}
+    public boolean isSoft() {return soft;}
 }

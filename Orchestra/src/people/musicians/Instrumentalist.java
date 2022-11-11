@@ -99,4 +99,14 @@ public class Instrumentalist extends Person implements Musician {
             soundSystem.playNote(seat, nextNote.next(), loudness);
         }
     }
+
+    /**
+     * Getter for InstrumentID
+     *
+     * @return instrumentID
+     */
+    @Override
+    public int getInstrumentID() {
+        return instrumentID;
+    }
 }

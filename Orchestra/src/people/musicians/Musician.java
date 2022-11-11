@@ -30,4 +30,11 @@ public interface Musician {
      * NOTE: setSeat and readScore have to be called before playNextNote can be used.
      */
     abstract void playNextNote();
+
+    /**
+     * Getter for InstrumentID
+     *
+     * @return instrumentID
+     */
+    abstract int getInstrumentID();
 }
