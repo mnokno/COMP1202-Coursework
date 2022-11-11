@@ -38,12 +38,31 @@ public class Conductor extends Person {
         musicians.add(musician);
     }
 
+
+    /**
+     * Removes a musician from conductors control.
+     *
+     * @param musician musician to be removed.
+     */
+    public void removeMusician(Musician musician){
+        musicians.remove(musician);
+    }
+
+    /**
+     * Getter for registered musicians.
+     *
+     * @return registered musicians.
+     */
+    public List<Musician> getMusicians(){
+        return musicians;
+    }
+
     /**
      * Plays the given composition.
      *
      * @param composition composition to be played.
      */
-    public void playComposition(Composition composition){
+    public void playComposition(Composition composition) throws Exception {
         // gets scores
         MusicScore[] musicScores = composition.getScores();
 
@@ -66,10 +85,11 @@ public class Conductor extends Person {
             }
         }
         if (insufficientHumanResources){
-            System.out.println("Insufficient human resources to play this composition!");
+            throw new Exception("Conductor does not have enough musicians to plat this composition!");
         }
 
         // plays the composition
+        soundSystem.setSilentMode(false);
         for (int i = 0; i < composition.getLength(); i++){
             try{
                 orchestra.playNextNote();

@@ -1,41 +1,98 @@
+import music.MusicSheet;
+import org.junit.jupiter.api.Test;
 import people.musicians.Cellist;
 import people.musicians.Pianist;
 import people.musicians.Violinist;
 import utils.SoundSystem;
 
 import javax.sound.midi.MidiUnavailableException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        try
-        {
-            SoundSystem soundSystem = new SoundSystem();
-            int[] notes = new int[]{67,65,67,65,67,65,67,65,67,0,0,67,65,67,65,67,67};
+    }
 
-            Violinist tom = new Violinist("Tom", soundSystem, 0);
-            Pianist jack = new Pianist("Jack", soundSystem, 0);
-            Cellist emma = new Cellist("Emma", soundSystem, 0);
+    @Test
+    public void Part5Test() throws Exception {
+        SoundSystem soundSystem = new SoundSystem();
+        EcsBandAid ecsBandAid = new EcsBandAid(soundSystem);
 
-            tom.readScore(notes, true);
-            jack.readScore(notes, true);
-            emma.readScore(notes, true);
+        MusicSheet musicSheetA = new MusicSheet("Ru d aah!", "Moderato", 3);
+        List<String> notesA = Arrays.stream(new String[]{"G4", "F4", "G4", "F4", "G4", "F4", "G4", "F4", "G4",
+                " none ", " none ", "G4", "F4", "G4", "F4", "G4", "G4"}).toList();
+        List<String> notesB = Arrays.stream(new String[]{"A3", "B3", "D4", "B3", "F#4", " none ", "F#4", " none ",
+                "E4", " none ", "A3", "B3", "D4", "B3", "E4", " none ", "E4", " none ", "D4", " none ", " none ",
+                "A3", "B3", "D4", "B3", "D4", " none ", "E4", "C#4", " none ", "A3",
+                " none ", "A3", "E4", " none ", "D4"}).toList();
+        List<String> notesC = Arrays.stream(new String[]{"C4", "C4", "D4", " none ", "C4", " none ", "F4", " none ",
+                "E4", " none ", " none ", " none ", "C4", "C4", "D4", " none ", "C4", " none ", "G4", " none ",
+                "F4", " none ", " none ", " none ", "C4", "C4", "C5", " none ", "A4", " none ", "F4", " none ", "E4",
+                " none ", "D4", " none ", "Bb4", "Bb4", "A4", " none ", "F4", " none ", "G4", " none ", "F4",
+                " none ", " none ", " none "}).toList();
+        musicSheetA.addScore("Cello", notesA, true);
+        musicSheetA.addScore("Violin", notesB, false);
+        musicSheetA.addScore("Piano", notesC, true);
 
-            System.out.println("playing");
-            for (int i = 0; i < notes.length; i++){
-                tom.playNextNote();
-                Thread.sleep(250);
-                //jack.playNextNote();
-                //Thread.sleep(500);
-                //emma.playNextNote();
-                //Thread.sleep(500);
-            }
-            System.out.println("finished");
+        MusicSheet musicSheetB = new MusicSheet("El'd ra", "Moderato", 3);
+        notesA = Arrays.stream(new String[]{"F4", "G4", "G4"}).toList();
+        notesB = Arrays.stream(new String[]{"A3", "B3", "D4", "E4", "C#4", " none ", "A3",
+                " none ", "A3", "E4", " none ", "D4"}).toList();
+        notesC = Arrays.stream(new String[]{"C4", "C4", "D4", " none ", "C4", " none ", "F4", " none ",
+                " none ", "D4", " none ", "Bb4", "Bb4", "A4", " none ", "F4", " none ", "G4", " none ", "F4",
+                " none ", " none ", " none "}).toList();
+        musicSheetB.addScore("Cello", notesA, true);
+        musicSheetB.addScore("Violin", notesB, false);
+        musicSheetB.addScore("Piano", notesC, true);
+
+        Violinist tom = new Violinist("Tom", soundSystem, 0);
+        Violinist ellis = new Violinist("Ellis", soundSystem, 0);
+        Violinist emily = new Violinist("Emily", soundSystem, 0);
+        Pianist jack = new Pianist("Jack", soundSystem, 0);
+        Pianist jazz = new Pianist("Jazz", soundSystem, 0);
+        Pianist alfie = new Pianist("Alfie", soundSystem, 0);
+        Cellist emma = new Cellist("Emma", soundSystem, 0);
+        Cellist janet = new Cellist("Janet", soundSystem, 0);
+        Cellist rubin = new Cellist("Rubin", soundSystem, 0);
+
+        ecsBandAid.addComposition(musicSheetA);
+        ecsBandAid.addComposition(musicSheetB);
+        ecsBandAid.addMusician(tom);
+        ecsBandAid.addMusician(ellis);
+        ecsBandAid.addMusician(emily);
+        ecsBandAid.addMusician(janet);
+        ecsBandAid.addMusician(jack);
+        ecsBandAid.addMusician(jazz);
+        ecsBandAid.addMusician(alfie);
+        ecsBandAid.addMusician(emma);
+        ecsBandAid.addMusician(rubin);
+
+        ecsBandAid.performForAYear();
+    }
+
+    @Test
+    public void Part1Test() throws InterruptedException, MidiUnavailableException {
+        SoundSystem soundSystem = new SoundSystem();
+        int[] notes = new int[]{67,65,67,65,67,65,67,65,67,0,0,67,65,67,65,67,67};
+
+        Violinist tom = new Violinist("Tom", soundSystem, 0);
+        Pianist jack = new Pianist("Jack", soundSystem, 0);
+        Cellist emma = new Cellist("Emma", soundSystem, 0);
+
+        tom.readScore(notes, true);
+        jack.readScore(notes, true);
+        emma.readScore(notes, true);
+
+        System.out.println("playing");
+        for (int i = 0; i < notes.length; i++){
+            tom.playNextNote();
+            Thread.sleep(250);
+            //jack.playNextNote();
+            //Thread.sleep(500);
+            //emma.playNextNote();
+            //Thread.sleep(500);
         }
-        catch (InterruptedException | MidiUnavailableException e)
-        {
-            System.out.println(e.toString());
-        }
-
+        System.out.println("finished");
     }
 }

@@ -8,15 +8,13 @@ import people.musicians.Pianist;
 import people.musicians.Violinist;
 import utils.SoundSystem;
 
-import javax.sound.midi.MidiUnavailableException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CustomPart4Test {
+public class CustomTests {
 
     @Test
-    public void Test1() throws MidiUnavailableException {
+    public void Part4Test() throws Exception {
         MusicSheet musicSheet = new MusicSheet("Test1", "Moderato", 3);
 
         List<String> notesA = Arrays.stream(new String[]{"G4", "F4", "G4", "F4", "G4", "F4", "G4", "F4", "G4",

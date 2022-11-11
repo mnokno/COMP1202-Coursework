@@ -36,7 +36,7 @@ public class MusicSheet implements Composition {
      */
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     /**
