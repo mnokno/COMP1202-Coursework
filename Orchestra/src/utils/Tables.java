@@ -33,7 +33,7 @@ public final class Tables {
     }};
 
     /**
-     * Don't worry, this code was generated using my custom .csv to java hashtable converter.
+     * Don't worry, this code was generated using my custom .csv to java hashtable converter, not written by hand.
      */
     public static final Dictionary<String, Integer> noteNameToMIDI = new Hashtable<String, Integer>(){{
         put("G#9", 128);
