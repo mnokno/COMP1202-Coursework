@@ -23,6 +23,15 @@ public final class Tables {
         put("Piano", 1);
     }};
 
+    public static final Dictionary<String, Integer> tempoToLength = new Hashtable<String, Integer>(){{
+        put("Larghissimo", 1500);
+        put("Lento", 1000);
+        put("Andante", 500);
+        put("Moderato", 300);
+        put("Allegro", 175);
+        put("Presto", 150);
+    }};
+
     /**
      * Don't worry, this code was generated using my custom .csv to java hashtable converter.
      */
