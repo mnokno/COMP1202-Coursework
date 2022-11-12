@@ -1,8 +1,11 @@
+import music.Composition;
+import music.MusicScore;
 import music.MusicSheet;
 import org.junit.jupiter.api.Test;
 import people.musicians.Cellist;
 import people.musicians.Pianist;
 import people.musicians.Violinist;
+import utils.FileReader;
 import utils.SoundSystem;
 
 import javax.sound.midi.MidiUnavailableException;
@@ -12,6 +15,31 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
+    }
+
+    @Test
+    public void Part1Test() throws InterruptedException, MidiUnavailableException {
+        SoundSystem soundSystem = new SoundSystem();
+        int[] notes = new int[]{67,65,67,65,67,65,67,65,67,0,0,67,65,67,65,67,67};
+
+        Violinist tom = new Violinist("Tom", soundSystem, 0);
+        Pianist jack = new Pianist("Jack", soundSystem, 1);
+        Cellist emma = new Cellist("Emma", soundSystem, 2);
+
+        tom.readScore(notes, true);
+        jack.readScore(notes, true);
+        emma.readScore(notes, true);
+
+        System.out.println("playing");
+        for (int i = 0; i < notes.length; i++){
+            tom.playNextNote();
+            Thread.sleep(250);
+            //jack.playNextNote();
+            //Thread.sleep(500);
+            //emma.playNextNote();
+            //Thread.sleep(500);
+        }
+        System.out.println("finished");
     }
 
     @Test
@@ -72,27 +100,11 @@ public class Main {
     }
 
     @Test
-    public void Part1Test() throws InterruptedException, MidiUnavailableException {
+    public void Part6Test() throws Exception {
         SoundSystem soundSystem = new SoundSystem();
-        int[] notes = new int[]{67,65,67,65,67,65,67,65,67,0,0,67,65,67,65,67,67};
-
-        Violinist tom = new Violinist("Tom", soundSystem, 0);
-        Pianist jack = new Pianist("Jack", soundSystem, 1);
-        Cellist emma = new Cellist("Emma", soundSystem, 2);
-
-        tom.readScore(notes, true);
-        jack.readScore(notes, true);
-        emma.readScore(notes, true);
-
-        System.out.println("playing");
-        for (int i = 0; i < notes.length; i++){
-            tom.playNextNote();
-            Thread.sleep(250);
-            //jack.playNextNote();
-            //Thread.sleep(500);
-            //emma.playNextNote();
-            //Thread.sleep(500);
-        }
-        System.out.println("finished");
+        EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
+                Arrays.stream(FileReader.loadMusicians(FileReader.DEFAULT_MUSICIANS_DIR, soundSystem)).iterator(),
+                FileReader.loadCompositions(FileReader.DEFAULT_COMPOSITION_DIR).iterator());
+        ecsBandAid.performForAYear();
     }
 }

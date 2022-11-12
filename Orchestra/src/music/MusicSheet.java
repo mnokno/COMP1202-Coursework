@@ -2,6 +2,7 @@ package music;
 
 import utils.Tables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MusicSheet implements Composition {
@@ -10,8 +11,7 @@ public class MusicSheet implements Composition {
     private String tempo;
     private int noteLength;
     private int length;
-    private MusicScore[] musicScores;
-    private int musicScoresCurrentIndex;
+    private List<MusicScore> musicScores;
 
     /**
      * Basic contractor for MusicSheet
@@ -25,8 +25,7 @@ public class MusicSheet implements Composition {
         this.tempo = tempo;
         noteLength = Tables.tempoToLength.get(tempo);
         this.length = length;
-        musicScores = new MusicScore[length];
-        musicScoresCurrentIndex = 0;
+        musicScores = new ArrayList<MusicScore>();
     }
 
     /**
@@ -51,17 +50,13 @@ public class MusicSheet implements Composition {
      */
     @Override
     public void addScore(String instrumentName, List<String> notes, boolean soft) {
-        if (musicScoresCurrentIndex < length){
-            // converts notes from human text to MIDI number
-            int[] intNotes = new int[notes.size()];
-            for (int i = 0; i < notes.size(); i++){
-                intNotes[i] = Tables.noteNameToMIDI.get(notes.get(i));
-            }
-            // adds this score
-            this.musicScores[musicScoresCurrentIndex] = new MusicScore(instrumentName, intNotes, soft);
-            // updates score count
-            musicScoresCurrentIndex++;
+        // converts notes from human text to MIDI number
+        int[] intNotes = new int[notes.size()];
+        for (int i = 0; i < notes.size(); i++){
+            intNotes[i] = Tables.noteNameToMIDI.get(notes.get(i));
         }
+        // adds this score
+        this.musicScores.add(new MusicScore(instrumentName, intNotes, soft));
     }
 
     /**
@@ -71,7 +66,7 @@ public class MusicSheet implements Composition {
      */
     @Override
     public MusicScore[] getScores() {
-        return musicScores;
+        return musicScores.toArray(new MusicScore[]{});
     }
 
     /**

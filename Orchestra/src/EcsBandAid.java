@@ -113,7 +113,7 @@ public class EcsBandAid {
             HashMap<Integer, Integer> tmp = new HashMap<Integer, Integer>();
             for (MusicScore musicScore: composition.getScores()){
                 if (tmp.containsKey(musicScore.getInstrumentID())){
-                    tmp.replace(musicScore.getInstrumentID(), tmp.get(musicScore.getInstrumentID()));
+                    tmp.replace(musicScore.getInstrumentID(), tmp.get(musicScore.getInstrumentID()) + 1);
                 }
                 else{
                     tmp.put(musicScore.getInstrumentID(), 1);
