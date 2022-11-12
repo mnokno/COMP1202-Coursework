@@ -639,7 +639,7 @@ public class TestEcsBandAidPart2 {
           }
         }.run();
         // TODO
-        assertFalse(!nextNote[0].hasNext(), "There should be NO more notes to play for Alice");
+        assertFalse(nextNote[0].hasNext(), "There should be NO more notes to play for Alice");
         // Get the iterator for Bob
         new TestField(PRECONDITION + ": Failed to get bob#nextNote") {
           @Override

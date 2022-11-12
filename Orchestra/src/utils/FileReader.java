@@ -61,6 +61,9 @@ public final class FileReader {
                 try{
                     if (partsA[0].equals("Name ")){
                         String name = partsA[1];
+                        if (name.toCharArray()[0] == ' '){
+                            name = name.substring(1);
+                        }
                         String tempo = bufferedReader.readLine().replaceAll(" ", "").split(":")[1];
                         String length = bufferedReader.readLine().replaceAll(" ", "").split(":")[1];
                         MusicSheet musicSheet = new MusicSheet(name, tempo, Integer.parseInt(length));
