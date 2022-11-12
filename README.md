@@ -9,3 +9,5 @@ Extensions:
 - Extended Conductor to allow it to save performance midway through.
 - Extended Conductor to allow it to load/resume a performance that was saved midway through.
 - Extended Conductor to allow it to play for x second, then stop saving the result to file so that the play can be resumed later, for demonstration peruses.
+
+NOTE: Extended version is not complete
