@@ -34,6 +34,10 @@ public class Orchestra {
         else{
             // I don't like this part, since there could be some other musician
             // already seating in this seat, but it says to do it this wayS.
+            if (seating.containsKey(musician.getSeat())){
+                System.out.println("WARNING: you have seated a musician in a sea where someone eles was seating" +
+                        " removing the other person from the orchestra!");
+            }
             seating.put(musician.getSeat(), musician);
             return 0;
         }

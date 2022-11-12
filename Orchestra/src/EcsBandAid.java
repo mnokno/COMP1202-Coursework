@@ -33,7 +33,8 @@ public class EcsBandAid {
      * @param musicianIterator      initially pool of musicians.
      * @param compositionIterator   initially pool of compositions.
      */
-    public EcsBandAid(SoundSystem soundSystem, Iterator<Musician> musicianIterator, Iterator<Composition> compositionIterator){
+    public EcsBandAid(SoundSystem soundSystem,
+                      Iterator<Musician> musicianIterator, Iterator<Composition> compositionIterator){
         this.soundSystem = soundSystem;
         musicians = new HashMap<Integer, List<Musician>>();
         compositions = new ArrayList<Composition>();
@@ -137,21 +138,30 @@ public class EcsBandAid {
         for (Integer key : requiredMusicians.keySet()){
             if (musicians.containsKey(key)){
                 if (musicians.get(key).size() < requiredMusicians.get(key)){
-                    throw new Exception("There are not enough musicians in the pool to assemble a band for the chosen compositions!");
+                    throw new Exception("There are not enough musicians in the pool to assemble a band for " +
+                            "the chosen compositions!");
                 }
             }
             else{
-                throw new Exception("There are not enough musicians in the pool to assemble a band for the chosen compositions!");
+                throw new Exception("There are not enough musicians in the pool to assemble a " +
+                        "band for the chosen compositions!");
             }
         }
 
         // assembles the band
         System.out.println("Recruiting a musicians to play in the band:");
+        int currentSeat = 0;
         for (Integer key: requiredMusicians.keySet()){
             Collections.shuffle(musicians.get(key));
             for (int i = 0; i < requiredMusicians.get(key); i++){
                 // I assume that all musicians in the pool are Instrumentalist
                 System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
+                if (currentSeat > 15){
+                    throw  new Exception("Chosen compositions require more then 16 musician, " +
+                            "an orchestra can have up to 16 no more!");
+                }
+                musicians.get(key).get(i).setSeat(currentSeat);
+                currentSeat++;
                 conductor.registerMusician(musicians.get(key).get(i));
             }
         }

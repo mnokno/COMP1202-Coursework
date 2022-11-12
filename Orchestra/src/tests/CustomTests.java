@@ -35,8 +35,8 @@ public class CustomTests {
 
         SoundSystem soundSystem = new SoundSystem();
         Violinist tom = new Violinist("Tom", soundSystem, 0);
-        Pianist jack = new Pianist("Jack", soundSystem, 0);
-        Cellist emma = new Cellist("Emma", soundSystem, 0);
+        Pianist jack = new Pianist("Jack", soundSystem, 1);
+        Cellist emma = new Cellist("Emma", soundSystem, 2);
         Conductor conductor = new Conductor("Megan", soundSystem);
         conductor.registerMusician(tom);
         conductor.registerMusician(jack);

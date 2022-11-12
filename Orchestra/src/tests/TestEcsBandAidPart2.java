@@ -638,6 +638,7 @@ public class TestEcsBandAidPart2 {
             nextNote[0] = (Iterator<Object>) nextNoteField.get(alice);
           }
         }.run();
+        // TODO
         assertFalse(!nextNote[0].hasNext(), "There should be NO more notes to play for Alice");
         // Get the iterator for Bob
         new TestField(PRECONDITION + ": Failed to get bob#nextNote") {

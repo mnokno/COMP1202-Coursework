@@ -46,15 +46,15 @@ public class Main {
         musicSheetB.addScore("Violin", notesB, false);
         musicSheetB.addScore("Piano", notesC, true);
 
-        Violinist tom = new Violinist("Tom", soundSystem, 0);
-        Violinist ellis = new Violinist("Ellis", soundSystem, 0);
-        Violinist emily = new Violinist("Emily", soundSystem, 0);
-        Pianist jack = new Pianist("Jack", soundSystem, 0);
-        Pianist jazz = new Pianist("Jazz", soundSystem, 0);
-        Pianist alfie = new Pianist("Alfie", soundSystem, 0);
-        Cellist emma = new Cellist("Emma", soundSystem, 0);
-        Cellist janet = new Cellist("Janet", soundSystem, 0);
-        Cellist rubin = new Cellist("Rubin", soundSystem, 0);
+        Violinist tom = new Violinist("Tom", soundSystem);
+        Violinist ellis = new Violinist("Ellis", soundSystem);
+        Violinist emily = new Violinist("Emily", soundSystem);
+        Pianist jack = new Pianist("Jack", soundSystem);
+        Pianist jazz = new Pianist("Jazz", soundSystem);
+        Pianist alfie = new Pianist("Alfie", soundSystem);
+        Cellist emma = new Cellist("Emma", soundSystem);
+        Cellist janet = new Cellist("Janet", soundSystem);
+        Cellist rubin = new Cellist("Rubin", soundSystem);
 
         ecsBandAid.addComposition(musicSheetA);
         ecsBandAid.addComposition(musicSheetB);
@@ -77,8 +77,8 @@ public class Main {
         int[] notes = new int[]{67,65,67,65,67,65,67,65,67,0,0,67,65,67,65,67,67};
 
         Violinist tom = new Violinist("Tom", soundSystem, 0);
-        Pianist jack = new Pianist("Jack", soundSystem, 0);
-        Cellist emma = new Cellist("Emma", soundSystem, 0);
+        Pianist jack = new Pianist("Jack", soundSystem, 1);
+        Cellist emma = new Cellist("Emma", soundSystem, 2);
 
         tom.readScore(notes, true);
         jack.readScore(notes, true);
