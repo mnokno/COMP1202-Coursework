@@ -12,7 +12,7 @@ import java.util.*;
 public class EcsBandAid {
 
     private SoundSystem soundSystem;
-    private List<Musician> musicians;
+    private HashMap<Integer, List<Musician>> musicians;
     private List<Composition> compositions;
 
     /**
@@ -22,7 +22,7 @@ public class EcsBandAid {
      */
     public EcsBandAid(SoundSystem soundSystem){
         this.soundSystem = soundSystem;
-        musicians = new ArrayList<Musician>();
+        musicians = new HashMap<Integer, List<Musician>>();
         compositions = new ArrayList<Composition>();
     }
 
@@ -35,7 +35,7 @@ public class EcsBandAid {
      */
     public EcsBandAid(SoundSystem soundSystem, Iterator<Musician> musicianIterator, Iterator<Composition> compositionIterator){
         this.soundSystem = soundSystem;
-        musicians = new ArrayList<Musician>();
+        musicians = new HashMap<Integer, List<Musician>>();
         compositions = new ArrayList<Composition>();
 
         // adds initial musicians if provided
@@ -59,7 +59,13 @@ public class EcsBandAid {
      * @param musician Musician to be added
      */
     public void addMusician(Musician musician){
-        musicians.add(musician);
+        if (musicians.containsKey(musician.getInstrumentID())){
+            musicians.get(musician.getInstrumentID()).add(musician);
+        }
+        else{
+            musicians.put(musician.getInstrumentID(), new ArrayList<Musician>() {});
+            musicians.get(musician.getInstrumentID()).add(musician);
+        }
     }
 
 
@@ -100,31 +106,56 @@ public class EcsBandAid {
         };
         // finds out how many musicians we need to play all 3 compositions
         System.out.println("Checking how many musicians are required to play selected compositions.");
-        Dictionary<String, Integer> requiredMusiciansDictionary = new Hashtable<String, Integer>();
-        int requiredMusicians = 0;
+        HashMap<Integer, Integer> requiredMusicians = new HashMap<Integer, Integer>();
         for (Composition composition: compositionsToPlay){
-            if (composition.getScores().length > requiredMusicians){
-                for (MusicScore musicScore: composition.getScores()){
-                    // TODO
+
+            HashMap<Integer, Integer> tmp = new HashMap<Integer, Integer>();
+            for (MusicScore musicScore: composition.getScores()){
+                if (tmp.containsKey(musicScore.getInstrumentID())){
+                    tmp.replace(musicScore.getInstrumentID(), tmp.get(musicScore.getInstrumentID()));
                 }
-                requiredMusicians = composition.getScores().length;
+                else{
+                    tmp.put(musicScore.getInstrumentID(), 1);
+                }
             }
+
+            for (Integer key: tmp.keySet()) {
+                if (requiredMusicians.containsKey(key)){
+                    if (requiredMusicians.get(key) < tmp.get(key)){
+                        requiredMusicians.replace(key, tmp.get(key));
+                    }
+                }
+                else{
+                    requiredMusicians.put(key, tmp.get(key));
+                }
+            }
+
         }
 
         // ensures that there are enough compositions
         System.out.println("Validating musicians pool.");
-        if (musicians.size() < requiredMusicians){
-            throw new Exception("There are not enough musicians in the pool to assemble a band for the chosen compositions!");
+        for (Integer key : requiredMusicians.keySet()){
+            if (musicians.containsKey(key)){
+                if (musicians.get(key).size() < requiredMusicians.get(key)){
+                    throw new Exception("There are not enough musicians in the pool to assemble a band for the chosen compositions!");
+                }
+            }
+            else{
+                throw new Exception("There are not enough musicians in the pool to assemble a band for the chosen compositions!");
+            }
         }
 
         // assembles the band
         System.out.println("Recruiting a musicians to play in the band:");
-        Collections.shuffle(musicians);
-        for (int i = 0; i < requiredMusicians; i++){
-            // I assume that all musicians in the pool are Instrumentalist
-            System.out.println(((Instrumentalist)musicians.get(i)).getName() + " has joined the band!");
-            conductor.registerMusician(musicians.get(i));
+        for (Integer key: requiredMusicians.keySet()){
+            Collections.shuffle(musicians.get(key));
+            for (int i = 0; i < requiredMusicians.get(key); i++){
+                // I assume that all musicians in the pool are Instrumentalist
+                System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
+                conductor.registerMusician(musicians.get(key).get(i));
+            }
         }
+
         // plays the three randomly selected compositions
         System.out.println("Starting to play.");
         for (Composition composition : compositionsToPlay){
