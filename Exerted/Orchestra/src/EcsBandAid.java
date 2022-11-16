@@ -2,9 +2,11 @@ import music.Composition;
 import music.MusicScore;
 import music.MusicSheet;
 import org.junit.jupiter.api.Test;
+import people.Person;
 import people.conductors.Conductor;
 import people.musicians.*;
 import utils.SoundSystem;
+import utils.Tables;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.*;
@@ -14,6 +16,7 @@ public class EcsBandAid {
     private SoundSystem soundSystem;
     private HashMap<Integer, List<Musician>> musicians;
     private List<Composition> compositions;
+    private Conductor conductor;
 
     /**
      * Basic EcsBandAid constructor
@@ -24,6 +27,7 @@ public class EcsBandAid {
         this.soundSystem = soundSystem;
         musicians = new HashMap<Integer, List<Musician>>();
         compositions = new ArrayList<Composition>();
+        conductor = new Conductor("Collin", this.soundSystem);
     }
 
     /**
@@ -38,6 +42,7 @@ public class EcsBandAid {
         this.soundSystem = soundSystem;
         musicians = new HashMap<Integer, List<Musician>>();
         compositions = new ArrayList<Composition>();
+        conductor = new Conductor("Collin", this.soundSystem);
 
         // adds initial musicians if provided
         if (musicianIterator != null){
@@ -86,7 +91,7 @@ public class EcsBandAid {
      * each musician has 50% changes to leave the bad.
      */
     public void performForAYear() throws Exception {
-        System.out.println("START");
+        System.out.println("START\n");
 
         // ensures that there are enough compositions
         System.out.println("Validating compositions pool.");
@@ -94,9 +99,6 @@ public class EcsBandAid {
             throw new Exception("Cant perform for a year, there are no composition in the composition pool");
         }
 
-        // creates a conductor
-        System.out.println("Recruiting a conductor to guide the band.");
-        Conductor conductor = new Conductor("Candace", soundSystem);
         // chooses compositions to play
         System.out.println("Choosing three random compositions from the pool compositions.");
         Random random = new Random();
@@ -108,6 +110,14 @@ public class EcsBandAid {
         // finds out how many musicians we need to play all 3 compositions
         System.out.println("Checking how many musicians are required to play selected compositions.");
         HashMap<Integer, Integer> requiredMusicians = new HashMap<Integer, Integer>();
+        for (Musician m : conductor.getMusicians()){
+            if (requiredMusicians.containsKey(m.getInstrumentID())){
+                requiredMusicians.replace(m.getInstrumentID(), requiredMusicians.get(m.getInstrumentID()) - 1);
+            }
+            else{
+                requiredMusicians.put(m.getInstrumentID(), -1);
+            }
+        }
         for (Composition composition: compositionsToPlay){
 
             HashMap<Integer, Integer> tmp = new HashMap<Integer, Integer>();
@@ -149,32 +159,33 @@ public class EcsBandAid {
         }
 
         // assembles the band
-        System.out.println("Recruiting a musicians to play in the band:");
-        int currentSeat = 0;
+        System.out.println("\nRecruiting a musicians to play in the band:");
         for (Integer key: requiredMusicians.keySet()){
             Collections.shuffle(musicians.get(key));
             for (int i = 0; i < requiredMusicians.get(key); i++){
-                // I assume that all musicians in the pool are Instrumentalist
-                System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
-                if (currentSeat > 15){
-                    throw  new Exception("Chosen compositions require more then 16 musician, " +
-                            "an orchestra can have up to 16 no more!");
+                // ensures that the same musician does not join the band twice before leaving when simulating multiple years
+                if (!conductor.hasMusician(musicians.get(key).get(i))){
+                    // I assume that all musicians in the pool are Instrumentalist
+                    System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
+                    conductor.registerMusician(musicians.get(key).get(i));
                 }
-                musicians.get(key).get(i).setSeat(currentSeat);
-                currentSeat++;
-                conductor.registerMusician(musicians.get(key).get(i));
             }
         }
 
         // plays the three randomly selected compositions
-        System.out.println("Starting to play.");
+        System.out.println("\nStarting to play.");
+        System.out.println("Performed by:");
+        for (Musician m : conductor.getMusicians()){
+            System.out.println(((Person)m).getName() + " playing " + Tables.IDToName.get(m.getInstrumentID()));
+        }
+        System.out.println("");
         for (Composition composition : compositionsToPlay){
             System.out.println("Now playing " + composition.getName());
             conductor.playComposition(composition);
             // small brake between composition
             Thread.sleep(500);
         }
-        System.out.println("Finished to play.");
+        System.out.println("Finished the year.\n");
 
         // there is 50% for each musician to leave the band
         // NOTE conductor is not conductor a musician, so he will never leave
@@ -189,6 +200,6 @@ public class EcsBandAid {
             conductor.removeMusician(musician);
         }
 
-        System.out.println("END");
+        System.out.println("END\n");
     }
 }

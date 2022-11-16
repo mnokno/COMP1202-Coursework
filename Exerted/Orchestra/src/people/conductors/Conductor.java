@@ -101,4 +101,15 @@ public class Conductor extends Person {
         }
         soundSystem.setSilentMode(true);
     }
+
+
+    /**
+     * Checks if the given musician is used conductors control.
+     *
+     * @param m Musician to be checked.
+     * @return returns true if the musical is already under conductors control.
+     */
+    public boolean hasMusician(Musician m){
+        return musicians.contains(m);
+    }
 }
