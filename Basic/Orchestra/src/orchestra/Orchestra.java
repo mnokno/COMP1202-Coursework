@@ -32,13 +32,21 @@ public class Orchestra {
             return 1;
         }
         else{
-            // I don't like this part, since there could be some other musician
-            // already seating in this seat, but it says to do it this wayS.
+            // checks if the seat is taken before setting down the musician
             if (seating.containsKey(musician.getSeat())){
-                System.out.println("WARNING: you have seated a musician in a seat where someone else was seating," +
-                        " removing the other person from the orchestra!");
+                // finds an empty seat
+                for (int i = 0; i < 16; i++){
+                    if (!seating.containsKey(i)){
+                        musician.setSeat(i);
+                        seating.put(i, musician);
+                        break;
+                    }
+                }
             }
-            seating.put(musician.getSeat(), musician);
+            else{
+                // the seat was empty
+                seating.put(musician.getSeat(), musician);
+            }
             return 0;
         }
     }
