@@ -23,6 +23,12 @@ public final class Tables {
         put("Piano", 1);
     }};
 
+    public static final Dictionary<Integer, String> IDToName = new Hashtable<Integer, String>(){{
+        put(41, "Violin");
+        put(43, "Cello");
+        put(1, "Piano");
+    }};
+
     public static final Dictionary<String, Integer> tempoToLength = new Hashtable<String, Integer>(){{
         put("Larghissimo", 1500);
         put("Lento", 1000);
