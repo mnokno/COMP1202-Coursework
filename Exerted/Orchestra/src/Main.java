@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Test command: java EcsBandAid data/musicians.morch data/compositions.corch 10
+        // Test command: java EcsBandAid data/musicians.morch data/compositions.corch 3
         if (args.length == 3){
             // creates ecsBandAid
             SoundSystem soundSystem = new SoundSystem();
@@ -40,8 +40,9 @@ public class Main {
             // starts the simulation
             ecsBandAid.performForYears(Integer.parseInt(args[2]));
 
+            // after 5 seconds of wait we will resume the simulation
             Thread.sleep(5000);
-            // starts a thread that will save the simulation after 5 seconds of wait
+            // starts a thread that will save the simulation after 10 seconds of wait
             Thread t2 = new Thread(new Runnable() {
                 public void run()
                 {
@@ -56,6 +57,7 @@ public class Main {
             t2.start();
             ecsBandAid.resume();
 
+            // after 5 seconds of wait we will resume the simulation
             Thread.sleep(5000);
             ecsBandAid.resume();
         }

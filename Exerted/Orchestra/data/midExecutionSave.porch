@@ -1,7 +1,7 @@
 TARGET_YEAR:3
 CURRENT_YEAR:1
-BAND_MEMBERS:Ardyn,Necron,Ultimecia,Emma
-COMPOSITIONS:Never gonna give you up,Stronger,Never gonna give you up
-CURRENT_COMPOSITION:1
-CURRENTLY_PERFORMING:Ardyn:0,Necron:1,Gilgamesh:2,Emma:3
-CURRENT_NOTE:-1
+BAND_MEMBERS:Tom,Ardyn,Ultimecia,Gilgamesh,Bahamut,Emma,Richard
+COMPOSITIONS:Will give you up,Never gonna give you up,Weaker
+CURRENT_COMPOSITION:2
+CURRENTLY_PERFORMING:Tom:0,Ultimecia:2,Bahamut:3
+CURRENT_NOTE:3

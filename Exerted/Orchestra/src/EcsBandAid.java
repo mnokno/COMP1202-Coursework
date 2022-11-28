@@ -187,10 +187,10 @@ public class EcsBandAid {
                     // I assume that all musicians in the pool are Instrumentalist
                     System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
                     conductor.registerMusician(musicians.get(key).get(i));
-                    performers.add(musicians.get(key).get(i));
                 }
             }
         }
+        performers = conductor.getMusicians();
 
         // plays the three randomly selected compositions
         System.out.println("\nStarting to play.");
@@ -244,8 +244,6 @@ public class EcsBandAid {
      * @param data the data to resume the simulation from
      */
     private void resumeYear(PORCHData data) throws Exception {
-        performers.clear();
-        chosenCompositions.clear();
         currentComposition = data.currentComposition;
 
         System.out.println("START RESUME\n");
@@ -335,7 +333,7 @@ public class EcsBandAid {
         }
         data = data.substring(0, data.length() - 1);
 
-        // saves chosen compositions, and the current compositon
+        // saves chosen compositions, and the current composition
         data += "\nCOMPOSITIONS:";
         for (Composition composition : chosenCompositions){
             data += composition.getName() + ",";
@@ -369,7 +367,7 @@ public class EcsBandAid {
         List<Musician> leavingMembers = new ArrayList<Musician>();
         Random random = new Random();
         for (Musician musician : conductor.getMusicians()){
-            if (random.nextDouble() > 0.5){
+            if (random.nextDouble() > dropOutRate){
                 leavingMembers.add(musician);
             }
         }
