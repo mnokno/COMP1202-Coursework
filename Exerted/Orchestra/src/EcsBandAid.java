@@ -404,16 +404,28 @@ public class EcsBandAid {
         }
     }
 
+    /**
+     * Aborts/stops the simulation midway through.
+     */
     public void abortSimulation(){
         conductor.abortPlay();
         abort = true;
     }
 
+    /**
+     * Checks if the simulation has been aborted
+     *
+     * @return true if the simulation has been aborted
+     */
     public boolean hasAborted(){
         return abort;
     }
 
-    public void reset(){
+    /**
+     * Clears temporary lists and creates a new conductor,
+     * equivalent to creating a new ecsBandAid object and loading the initial data again.
+     */
+    private void reset(){
         performers.clear();
         chosenCompositions.clear();
         conductor = new Conductor("Collin", this.soundSystem);
