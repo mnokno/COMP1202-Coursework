@@ -210,6 +210,12 @@ public class EcsBandAid {
             Thread.sleep(500);
             currentComposition++;
         }
+        // in case the simulation was abated on the last note, meaning it skipped the in loop check
+        if (abort){
+            System.out.println("ABORTED FROM WITHIN YEAR SIMULATION!");
+            return;
+        }
+
         System.out.println("Finished the year.\n");
 
         applyDropout(0.5f);
@@ -307,6 +313,11 @@ public class EcsBandAid {
             // small brake between composition
             Thread.sleep(500);
             currentComposition++;
+        }
+        // in case the simulation was abated on the last note, meaning it skipped the in loop check
+        if (abort){
+            System.out.println("ABORTED FROM WITHIN YEAR SIMULATION!");
+            return;
         }
 
         System.out.println("Finished the year.\n");
