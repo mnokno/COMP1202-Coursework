@@ -210,6 +210,15 @@ public class SoundSystem {
   }
 
   /**
+   * Stops playing all notes immediately.
+   */
+  public void stopPlaying() {
+    for (MidiChannel channel : midiChannels) {
+      channel.allNotesOff();
+    }
+  }
+
+  /**
    * Mutator method for setting the silent mode.
    *
    * @param silentMode <code>true</code> to enable the silent mode and <code>false</code> to
