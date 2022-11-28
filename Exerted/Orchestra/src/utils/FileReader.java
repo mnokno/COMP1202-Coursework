@@ -7,8 +7,9 @@ import people.musicians.Musician;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 public final class FileReader {
 
@@ -87,5 +88,41 @@ public final class FileReader {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static PORCHData loadPORCHData(String dir){
+
+        // reads the raw data from the file
+        Map<String, String> data = new HashMap<String, String>();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(dir));
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+                String[] parts = line.split(":");
+                data.put(parts[0], parts[1]);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // pareses the raw data
+        PORCHData porchData = new PORCHData();
+
+        //TARGET_YEAR
+        porchData.targetYear = Integer.parseInt(data.get("TARGET_YEAR"));
+        //CURRENT_YEAR
+        porchData.currentYear = Integer.parseInt(data.get("CURRENT_YEAR"));
+        //BAND_MEMBERS
+        porchData.bandMembers = new ArrayList<String>(Arrays.asList(data.get("BAND_MEMBERS").split(",")));
+        //COMPOSITIONS
+        porchData.compositions = new ArrayList<String>(Arrays.asList(data.get("COMPOSITIONS").split(",")));
+        //CURRENT_COMPOSITION
+        porchData.currentComposition = Integer.parseInt(data.get("CURRENT_COMPOSITION"));
+        //CURRENTLY_PERFORMING
+        porchData.currentlyPerforming = new Hashtable<String, Integer>();
+        //CURRENT_NOTE
+        porchData.currentNote = Integer.parseInt(data.get("CURRENT_NOTE"));
+
+        return porchData;
     }
 }
