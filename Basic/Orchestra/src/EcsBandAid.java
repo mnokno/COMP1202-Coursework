@@ -202,4 +202,11 @@ public class EcsBandAid {
 
         System.out.println("END\n");
     }
+
+    public void performForYears(int numOfYears) throws Exception {
+        for (int i = 0; i < numOfYears; i++){
+            System.out.println("Year " + (i + 1));
+            performForAYear();
+        }
+    }
 }

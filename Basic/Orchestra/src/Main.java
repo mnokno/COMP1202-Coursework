@@ -15,17 +15,13 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Test command: java EcsBandAid data/musicians.morch data/compositions.corch 10
+        // Test command: java EcsBandAid data/musicians.morch data/compositions.corch 3
         if (args.length == 3){
             SoundSystem soundSystem = new SoundSystem();
             EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
                     Arrays.stream(FileReader.loadMusicians(args[0], soundSystem)).iterator(),
                     FileReader.loadCompositions(args[1]).iterator());
-            for (int i = 0; i < Integer.parseInt(args[2]); i++){
-                System.out.println("START OF YEAR " + (i + 1));
-                ecsBandAid.performForAYear();
-                System.out.println("END OF YEAR " + (i + 1));
-            }
+            ecsBandAid.performForYears(Integer.parseInt(args[2]));
         }
         else{
             throw new Exception("The main method expected 3 parameter, instated got " + args.length + "!");
@@ -161,10 +157,6 @@ public class Main {
         EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
                 Arrays.stream(FileReader.loadMusicians(FileReader.DEFAULT_MUSICIANS_DIR, soundSystem)).iterator(),
                 FileReader.loadCompositions(FileReader.DEFAULT_COMPOSITION_DIR).iterator());
-        for (int i = 0; i < 10; i++){
-            System.out.println("START OF YEAR " + (i + 1));
-            ecsBandAid.performForAYear();
-            System.out.println("END OF YEAR " + (i + 1));
-        }
+        ecsBandAid.performForYears(10);
     }
 }
