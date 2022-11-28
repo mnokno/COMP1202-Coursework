@@ -1,7 +1,7 @@
-TARGET_YEAR:2
-CURRENT_YEAR:0
-BAND_MEMBERS:Necron,Jakub,Ultimecia,Richard,Bahamut,Emma
-COMPOSITIONS:Will give you up,Will give you up,Will give you up
-CURRENT_COMPOSITION:2
-CURRENTLY_PERFORMING:Necron:0,Jakub:1,Ultimecia:2,Richard:3,Bahamut:4,Emma:5
-CURRENT_NOTE:4
+TARGET_YEAR:3
+CURRENT_YEAR:1
+BAND_MEMBERS:Ardyn,Necron,Ultimecia,Emma
+COMPOSITIONS:Never gonna give you up,Stronger,Never gonna give you up
+CURRENT_COMPOSITION:1
+CURRENTLY_PERFORMING:Ardyn:0,Necron:1,Gilgamesh:2,Emma:3
+CURRENT_NOTE:-1

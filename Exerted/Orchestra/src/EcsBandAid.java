@@ -3,6 +3,8 @@ import music.MusicScore;
 import people.Person;
 import people.conductors.Conductor;
 import people.musicians.*;
+import utils.FileReader;
+import utils.PORCHData;
 import utils.SoundSystem;
 import utils.Tables;
 
@@ -210,18 +212,7 @@ public class EcsBandAid {
         }
         System.out.println("Finished the year.\n");
 
-        // there is 50% for each musician to leave the band
-        // NOTE conductor is not conductor a musician, so he will never leave
-        List<Musician> leavingMembers = new ArrayList<Musician>();
-        for (Musician musician : conductor.getMusicians()){
-            if (random.nextDouble() > 0.5){
-                leavingMembers.add(musician);
-            }
-        }
-        for (Musician musician : leavingMembers){
-            System.out.println(((Instrumentalist)musician).getName() + " has left the band!");
-            conductor.removeMusician(musician);
-        }
+        applyDropout(0.5f);
 
         System.out.println("END\n");
     }
@@ -232,11 +223,13 @@ public class EcsBandAid {
      * @param numOfYears perform for the given number of years
      */
     public void performForYears(int numOfYears) throws Exception {
+        abort = false;
         currentYear = 0;
         targetYear = numOfYears;
         for (int i = 0; i < numOfYears; i++){
             if (hasAborted()){
                 System.out.println("ABORTED FROM YEARS LOOP!");
+                abort = false;
                 return;
             }
             System.out.println("Year " + (i + 1));
@@ -245,6 +238,90 @@ public class EcsBandAid {
         }
     }
 
+    /**
+     * Resumes the simulation based on th predated data.
+     *
+     * @param data the data to resume the simulation from
+     */
+    private void resumeYear(PORCHData data) throws Exception {
+        performers.clear();
+        chosenCompositions.clear();
+        currentComposition = data.currentComposition;
+
+        System.out.println("START RESUME\n");
+
+        // loads composition to play from the PORCHData object
+        for (String compositionName : data.compositions){
+            boolean found = false;
+            for (Composition composition : compositions){
+                if (composition.getName().equals(compositionName)){
+                    found = true;
+                    chosenCompositions.add(composition);
+                    System.out.println("Loaded composition " + composition.getName());
+                    break;
+                }
+            }
+            if (!found){
+                System.out.println("ERROR: Composition " + compositionName + " not found!");
+            }
+        }
+
+        // loads selected musicians from the PORCHData object
+        for (String bandMemberName : data.bandMembers){
+            boolean found = false;
+            for (Integer key: musicians.keySet()){
+                for (Musician musician : musicians.get(key)){
+                    if (((Instrumentalist)musician).getName().equals(bandMemberName)){
+                        conductor.registerMusician(musician);
+                        performers.add(musician);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found){
+                    break;
+                }
+            }
+            if (!found){
+                System.out.println("ERROR: Musician " + bandMemberName + " not found!");
+            }
+        }
+
+        // logs musician that are performing playing
+        System.out.println("\nStarting to play.");
+        System.out.println("Performed by:");
+        for (Musician m : conductor.getMusicians()){
+            System.out.println(((Person)m).getName() + " playing " + Tables.IDToName.get(m.getInstrumentID()));
+        }
+
+        // plays the composition
+        System.out.println("");
+        System.out.println("Now playing " + chosenCompositions.get(currentComposition).getName());
+        conductor.resumeComposition(chosenCompositions.get(currentComposition), data);
+        for (int i = data.currentComposition + 1; i < 3; i++){
+            if (abort){
+                System.out.println("ABORTED FROM WITHIN YEAR SIMULATION!");
+
+                return;
+            }
+            System.out.println("Now playing " + chosenCompositions.get(i).getName());
+            conductor.playComposition(chosenCompositions.get(i));
+            // small brake between composition
+            Thread.sleep(500);
+            currentComposition++;
+        }
+
+        System.out.println("Finished the year.\n");
+
+        applyDropout(0.5f);
+        currentYear++;
+
+        System.out.println("END\n");
+    }
+
+    /**
+     * Saves the current state of the simulation to a file
+     */
     public void save(){
         // we can assume that the composition.corch and musicians.morch will
         // stay the same so this data does not need to be saved again
@@ -281,6 +358,52 @@ public class EcsBandAid {
         }
     }
 
+    /**
+     * Applies dropout, each musician has the given percentage change to lave the bad
+     *
+     * @param dropOutRate the chance for a musician to leave the band
+     */
+    private void applyDropout(float dropOutRate){
+        // there is dropOutRate% for each musician to leave the band
+        // NOTE conductor is not conductor a musician, so he will never leave
+        List<Musician> leavingMembers = new ArrayList<Musician>();
+        Random random = new Random();
+        for (Musician musician : conductor.getMusicians()){
+            if (random.nextDouble() > 0.5){
+                leavingMembers.add(musician);
+            }
+        }
+        for (Musician musician : leavingMembers){
+            System.out.println(((Instrumentalist)musician).getName() + " has left the band!");
+            conductor.removeMusician(musician);
+        }
+    }
+
+    /**
+     * Resumes the simulation from a saved state
+     */
+    public void resume() throws Exception {
+        abort = false;
+        reset();
+        PORCHData porchData = FileReader.loadPORCHData("data/midExecutionSave.porch");
+        currentYear = porchData.currentYear;
+        targetYear = porchData.targetYear;
+
+        // first iteration should be resumed
+        resumeYear(porchData);
+        // there other iteration can be simple simulated
+        for (int i = currentYear; i < targetYear; i++){
+            if (hasAborted()){
+                System.out.println("ABORTED FROM YEARS LOOP!");
+                abort = false;
+                return;
+            }
+            System.out.println("Year " + (i + 1));
+            performForAYear();
+            currentYear++;
+        }
+    }
+
     public void abortSimulation(){
         conductor.abortPlay();
         abort = true;
@@ -288,5 +411,11 @@ public class EcsBandAid {
 
     public boolean hasAborted(){
         return abort;
+    }
+
+    public void reset(){
+        performers.clear();
+        chosenCompositions.clear();
+        conductor = new Conductor("Collin", this.soundSystem);
     }
 }

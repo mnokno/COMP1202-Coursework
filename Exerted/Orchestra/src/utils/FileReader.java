@@ -4,10 +4,7 @@ import music.Composition;
 import music.MusicSheet;
 import people.musicians.Instrumentalist;
 import people.musicians.Musician;
-
-import javax.sound.midi.MidiUnavailableException;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -90,6 +87,12 @@ public final class FileReader {
         }
     }
 
+    /**
+     * Loads PORCHData data from file
+     *
+     * @param dir directory from which to load the file, including the file name
+     * @return the loaded PORCHData object
+     */
     public static PORCHData loadPORCHData(String dir){
 
         // reads the raw data from the file

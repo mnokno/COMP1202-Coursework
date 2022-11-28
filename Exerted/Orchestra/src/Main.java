@@ -39,6 +39,25 @@ public class Main {
 
             // starts the simulation
             ecsBandAid.performForYears(Integer.parseInt(args[2]));
+
+            Thread.sleep(5000);
+            // starts a thread that will save the simulation after 5 seconds of wait
+            Thread t2 = new Thread(new Runnable() {
+                public void run()
+                {
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ecsBandAid.abortSimulation();
+                    ecsBandAid.save();
+                }});
+            t2.start();
+            ecsBandAid.resume();
+
+            Thread.sleep(5000);
+            ecsBandAid.resume();
         }
         else{
             throw new Exception("The main method expected 3 parameter, instated got " + args.length + "!");

@@ -5,6 +5,7 @@ import music.MusicScore;
 import orchestra.Orchestra;
 import people.Person;
 import people.musicians.Musician;
+import utils.PORCHData;
 import utils.SoundSystem;
 
 import java.util.ArrayList;
@@ -59,11 +60,52 @@ public class Conductor extends Person {
     }
 
     /**
-     * Plays the given composition.
+     * Plays out the composition.
+     *
+     * @param startNote skips the first n notes, starting to play form startNote.
+     * @param composition composition to be played.
+     */
+    private void playNotes(int startNote, Composition composition){
+        // skips notes that were played before saved
+        for (int i = 0; i < startNote; i++){
+            orchestra.playNextNote();
+            currentNote++;
+        }
+
+        // plays the composition
+        for (int i = startNote; i < composition.getLength(); i++){
+            if (abort){
+                System.out.println("ABORTED IN CONDUCTOR!");
+                soundSystem.stopPlaying();
+                soundSystem.setSilentMode(true);
+                return;
+            }
+            try{
+                orchestra.playNextNote();
+                Thread.sleep(composition.getNoteLength());
+                currentNote++;
+            }
+            catch (InterruptedException e){
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    /**
+     * Plays out the composition.
      *
      * @param composition composition to be played.
      */
-    public void playComposition(Composition composition) throws Exception {
+    private void playNotes(Composition composition){
+        playNotes(0, composition);
+    }
+
+    /**
+     * Assembles the orchestra to play the given composition.
+     *
+     * @param composition composition to be played by teh orchestra.
+     */
+    private void assembleOrchestra(Composition composition) throws Exception {
         // resets current note
         currentNote = 0;
         // gets scores
@@ -90,29 +132,47 @@ public class Conductor extends Person {
         if (insufficientHumanResources){
             throw new Exception("Conductor does not have enough musicians to plat this composition!");
         }
+    }
 
+    /**
+     * Plays the given composition.
+     *
+     * @param composition composition to be played.
+     */
+    public void playComposition(Composition composition) throws Exception {
+        // assembles orchestra
+        assembleOrchestra(composition);
         // plays the composition
         soundSystem.setSilentMode(false);
-        for (int i = 0; i < composition.getLength(); i++){
-            if (abort){
-                System.out.println("ABORTED IN CONDUCTOR!");
-                soundSystem.setSilentMode(true);
-                abort = false;
-                return;
-            }
-            try{
-                orchestra.playNextNote();
-                Thread.sleep(composition.getNoteLength());
-                currentNote++;
-            }
-            catch (InterruptedException e){
-                System.out.println(e.toString());
-            }
+        playNotes(composition);
+        if (abort){
+            abort = false;
+            return;
+        }
+        currentNote = -1;
+        soundSystem.stopPlaying();
+        soundSystem.setSilentMode(true);
+    }
+
+    /**
+     * Resume play of a composition based on the provided data.
+     *
+     * @param composition Composition to be resumed.
+     * @param data Data that specifies how the composition should be resumed.
+     */
+    public void resumeComposition(Composition composition, PORCHData data) throws Exception {
+        // assembles orchestra
+        assembleOrchestra(composition);
+        // plays the composition
+        soundSystem.setSilentMode(false);
+        playNotes(data.currentNote, composition);
+        if (abort){
+            abort = false;
+            return;
         }
         currentNote = -1;
         soundSystem.setSilentMode(true);
     }
-
 
     /**
      * Checks if the given musician is used conductors control.
@@ -124,6 +184,11 @@ public class Conductor extends Person {
         return musicians.contains(m);
     }
 
+    /**
+     * Generates a string of data that cna be used to restore the state of the current composition.
+     *
+     * @return data that can be used to restore the state of the current composition.
+     */
     public String getSaveData(){
         if (orchestra == null){
             return "NOT_PLAYING";
@@ -141,6 +206,9 @@ public class Conductor extends Person {
         }
     }
 
+    /**
+     * Aborts play of the current composition
+     */
     public void abortPlay(){
         abort = true;
     }
