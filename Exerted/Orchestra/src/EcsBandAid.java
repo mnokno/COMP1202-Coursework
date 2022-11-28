@@ -1,14 +1,13 @@
 import music.Composition;
 import music.MusicScore;
-import music.MusicSheet;
-import org.junit.jupiter.api.Test;
 import people.Person;
 import people.conductors.Conductor;
 import people.musicians.*;
 import utils.SoundSystem;
 import utils.Tables;
 
-import javax.sound.midi.MidiUnavailableException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class EcsBandAid {
@@ -17,6 +16,13 @@ public class EcsBandAid {
     private HashMap<Integer, List<Musician>> musicians;
     private List<Composition> compositions;
     private Conductor conductor;
+
+    private List<Musician> performers;
+    private List<Composition> chosenCompositions;
+    private int currentComposition = 0;
+    private boolean abort = false;
+    private int currentYear = -1;
+    private int targetYear = -1;
 
     /**
      * Basic EcsBandAid constructor
@@ -27,6 +33,8 @@ public class EcsBandAid {
         this.soundSystem = soundSystem;
         musicians = new HashMap<Integer, List<Musician>>();
         compositions = new ArrayList<Composition>();
+        performers = new ArrayList<Musician>();
+        chosenCompositions = new ArrayList<Composition>();
         conductor = new Conductor("Collin", this.soundSystem);
     }
 
@@ -41,6 +49,8 @@ public class EcsBandAid {
                       Iterator<Musician> musicianIterator, Iterator<Composition> compositionIterator){
         this.soundSystem = soundSystem;
         musicians = new HashMap<Integer, List<Musician>>();
+        performers = new ArrayList<Musician>();
+        chosenCompositions = new ArrayList<Composition>();
         compositions = new ArrayList<Composition>();
         conductor = new Conductor("Collin", this.soundSystem);
 
@@ -91,6 +101,10 @@ public class EcsBandAid {
      * each musician has 50% changes to leave the bad.
      */
     public void performForAYear() throws Exception {
+        performers.clear();
+        chosenCompositions.clear();
+        currentComposition = 0;
+
         System.out.println("START\n");
 
         // ensures that there are enough compositions
@@ -107,6 +121,9 @@ public class EcsBandAid {
             compositions.get((int)(random.nextDouble() * compositions.size())),
             compositions.get((int)(random.nextDouble() * compositions.size()))
         };
+        // saves chosen compositions in case we need to save midway through the year
+        chosenCompositions.addAll(Arrays.asList(compositionsToPlay));
+
         // finds out how many musicians we need to play all 3 compositions
         System.out.println("Checking how many musicians are required to play selected compositions.");
         HashMap<Integer, Integer> requiredMusicians = new HashMap<Integer, Integer>();
@@ -168,6 +185,7 @@ public class EcsBandAid {
                     // I assume that all musicians in the pool are Instrumentalist
                     System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
                     conductor.registerMusician(musicians.get(key).get(i));
+                    performers.add(musicians.get(key).get(i));
                 }
             }
         }
@@ -180,10 +198,15 @@ public class EcsBandAid {
         }
         System.out.println("");
         for (Composition composition : compositionsToPlay){
+            if (abort){
+                System.out.println("ABORTED FROM WITHIN YEAR SIMULATION!");
+                return;
+            }
             System.out.println("Now playing " + composition.getName());
             conductor.playComposition(composition);
             // small brake between composition
             Thread.sleep(500);
+            currentComposition++;
         }
         System.out.println("Finished the year.\n");
 
@@ -201,5 +224,69 @@ public class EcsBandAid {
         }
 
         System.out.println("END\n");
+    }
+
+    /**
+     * Performs for a given number of years
+     *
+     * @param numOfYears perform for the given number of years
+     */
+    public void performForYears(int numOfYears) throws Exception {
+        currentYear = 0;
+        targetYear = numOfYears;
+        for (int i = 0; i < numOfYears; i++){
+            if (hasAborted()){
+                System.out.println("ABORTED FROM YEARS LOOP!");
+                return;
+            }
+            System.out.println("Year " + (i + 1));
+            performForAYear();
+            currentYear++;
+        }
+    }
+
+    public void save(){
+        // we can assume that the composition.corch and musicians.morch will
+        // stay the same so this data does not need to be saved again
+
+        // saves performing musicians
+        String data  = "TARGET_YEAR:" + targetYear + "\n";
+        data += "CURRENT_YEAR:" + currentYear + "\n";
+        data += "BAND_MEMBERS:";
+        for (Musician musician : performers){
+            data += ((Instrumentalist)musician).getName() + ",";
+        }
+        data = data.substring(0, data.length() - 1);
+
+        // saves chosen compositions, and the current compositon
+        data += "\nCOMPOSITIONS:";
+        for (Composition composition : chosenCompositions){
+            data += composition.getName() + ",";
+        }
+        data = data.substring(0, data.length() - 1);
+        data += "\n" + "CURRENT_COMPOSITION:" + currentComposition + "\n";
+
+        // saves conductor data
+        data += conductor.getSaveData();
+        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+        System.out.println(data);
+        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+
+        try {
+            FileWriter fileWriter = new FileWriter("data/midExecutionSave.porch");
+            fileWriter.write(data);
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void abortSimulation(){
+        conductor.abortPlay();
+        abort = true;
+    }
+
+    public boolean hasAborted(){
+        return abort;
     }
 }

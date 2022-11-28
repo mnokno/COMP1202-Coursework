@@ -17,6 +17,7 @@ public class Instrumentalist extends Person implements Musician {
     private SoundSystem soundSystem;
     private int seat;
     private int loudness;
+    private int playedNotes;
 
     /**
      * Constructor Instrumentalist Person class.
@@ -77,6 +78,8 @@ public class Instrumentalist extends Person implements Musician {
      */
     @Override
     public void readScore(int[] notes, boolean soft) {
+        // resets played notes counter
+        playedNotes = 0;
         // loads notes
         this.notes = new ArrayList<Integer>();
         for (int note: notes){
@@ -96,6 +99,7 @@ public class Instrumentalist extends Person implements Musician {
     @Override
     public void playNextNote() {
         if (nextNote.hasNext()){
+            playedNotes++;
             soundSystem.playNote(seat, nextNote.next(), loudness);
         }
     }
@@ -108,5 +112,29 @@ public class Instrumentalist extends Person implements Musician {
     @Override
     public int getInstrumentID() {
         return instrumentID;
+    }
+
+    /**
+     * Getter for the number of played notes
+     *
+     * @return playedNotes
+     */
+    @Override
+    public int getPlayedNotes() {
+        return playedNotes;
+    }
+
+    /**
+     * Skips the given umber of notes
+     *
+     * @param numberOfNotesToSkip the number of notes to be skipped
+     */
+    @Override
+    public void skipNotes(int numberOfNotesToSkip) {
+        for (int i = 0; i < numberOfNotesToSkip; i++) {
+            if (nextNote.hasNext()){
+                nextNote.next();
+            }
+        }
     }
 }

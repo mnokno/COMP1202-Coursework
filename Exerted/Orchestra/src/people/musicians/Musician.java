@@ -9,7 +9,6 @@ public interface Musician {
      */
     abstract void setSeat(int seat);
 
-
     /**
      * Getter for seat.
      *
@@ -37,4 +36,18 @@ public interface Musician {
      * @return instrumentID
      */
     abstract int getInstrumentID();
+
+    /**
+     * Getter for the number of played notes
+     *
+     * @return playedNotes
+     */
+    abstract int getPlayedNotes();
+
+    /**
+     * Skips the given umber of notes
+     *
+     * @param numberOfNotesToSkip number of notes to skip
+     */
+    abstract void skipNotes(int numberOfNotesToSkip);
 }

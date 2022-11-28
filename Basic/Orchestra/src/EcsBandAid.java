@@ -203,6 +203,11 @@ public class EcsBandAid {
         System.out.println("END\n");
     }
 
+    /**
+     * Performs for a given number of years
+     *
+     * @param numOfYears perform for the given number of years
+     */
     public void performForYears(int numOfYears) throws Exception {
         for (int i = 0; i < numOfYears; i++){
             System.out.println("Year " + (i + 1));

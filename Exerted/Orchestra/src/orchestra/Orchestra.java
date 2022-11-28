@@ -81,4 +81,13 @@ public class Orchestra {
             m.playNextNote();
         }
     }
+
+    /**
+     * Returns the musicians in the orchestra.
+     *
+     * @return musicians in the orchestra.
+     */
+    public Musician[] getMusicians(){
+        return seating.values().toArray(new Musician[0]);
+    }
 }

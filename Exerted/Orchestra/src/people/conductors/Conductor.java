@@ -8,14 +8,15 @@ import people.musicians.Musician;
 import utils.SoundSystem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class Conductor extends Person {
 
     private SoundSystem soundSystem;
     private ArrayList<Musician> musicians;
+    private Orchestra orchestra;
+    private int currentNote = -1;
+    private boolean abort = false;
 
     /**
      * Constructor for Conductor class.
@@ -63,11 +64,13 @@ public class Conductor extends Person {
      * @param composition composition to be played.
      */
     public void playComposition(Composition composition) throws Exception {
+        // resets current note
+        currentNote = 0;
         // gets scores
         MusicScore[] musicScores = composition.getScores();
 
         // creates empty orchestra
-        Orchestra orchestra = new Orchestra();
+        orchestra = new Orchestra();
 
         // assigns musicians to the scrolls
         boolean insufficientHumanResources = false;
@@ -91,14 +94,22 @@ public class Conductor extends Person {
         // plays the composition
         soundSystem.setSilentMode(false);
         for (int i = 0; i < composition.getLength(); i++){
+            if (abort){
+                System.out.println("ABORTED IN CONDUCTOR!");
+                soundSystem.setSilentMode(true);
+                abort = false;
+                return;
+            }
             try{
                 orchestra.playNextNote();
                 Thread.sleep(composition.getNoteLength());
+                currentNote++;
             }
             catch (InterruptedException e){
                 System.out.println(e.toString());
             }
         }
+        currentNote = -1;
         soundSystem.setSilentMode(true);
     }
 
@@ -111,5 +122,26 @@ public class Conductor extends Person {
      */
     public boolean hasMusician(Musician m){
         return musicians.contains(m);
+    }
+
+    public String getSaveData(){
+        if (orchestra == null){
+            return "NOT_PLAYING";
+        }
+        else{
+            String data = "CURRENTLY_PERFORMING:";
+            for (Musician musician: orchestra.getMusicians()){
+                data += ((Person)musician).getName() + ":" + musician.getSeat() + ",";
+            }
+            data = data.substring(0, data.length() - 1);
+            data += "\n";
+            data += "CURRENT_NOTE:" + currentNote;
+
+            return data;
+        }
+    }
+
+    public void abortPlay(){
+        abort = true;
     }
 }
