@@ -154,10 +154,16 @@ public class EcsBandAid {
         }
         // offsets the found musician requirement by musician already in the band,this mean that musician
         // that carry over to the next year will play and no replacement will be provided for them.
+        for (Integer key : requiredMusicians.keySet()){
+            System.out.println(key.toString() + ":" + requiredMusicians.get(key));
+        }
         for (Musician m : conductor.getMusicians()){
             if (requiredMusicians.containsKey(m.getInstrumentID())){
                 requiredMusicians.replace(m.getInstrumentID(), requiredMusicians.get(m.getInstrumentID()) - 1);
             }
+        }
+        for (Integer key : requiredMusicians.keySet()){
+            System.out.println(key.toString() + ":" + requiredMusicians.get(key));
         }
 
         // ensures that there are enough compositions
@@ -180,11 +186,18 @@ public class EcsBandAid {
         for (Integer key: requiredMusicians.keySet()){
             Collections.shuffle(musicians.get(key));
             for (int i = 0; i < requiredMusicians.get(key); i++){
-                // ensures that the same musician does not join the band twice before leaving when simulating multiple years
-                if (!conductor.hasMusician(musicians.get(key).get(i))){
-                    // I assume that all musicians in the pool are Instrumentalist
-                    System.out.println(((Instrumentalist)musicians.get(key).get(i)).getName() + " has joined the band!");
-                    conductor.registerMusician(musicians.get(key).get(i));
+                for (int j = 0; j < musicians.get(key).size(); j++){
+                    // ensures that the same musician does not join the band twice before leaving when simulating multiple years
+                    if (!conductor.hasMusician(musicians.get(key).get(j))){
+                        // I assume that all musicians in the pool are Instrumentalist
+                        System.out.println(((Instrumentalist)musicians.get(key).get(j)).getName() + " has joined the band!");
+                        conductor.registerMusician(musicians.get(key).get(j));
+                        break;
+                    }
+                    if (j == musicians.get(key).size() -1){
+                        throw new Exception("There are not enough musicians in the pool to assemble a " +
+                                "band for the chosen compositions!");
+                    }
                 }
             }
         }
