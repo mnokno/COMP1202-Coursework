@@ -136,19 +136,13 @@ public class EcsBandAid {
         }
         // offsets the found musician requirement by musician already in the band,this mean that musician
         // that carry over to the next year will play and no replacement will be provided for them.
-        for (Integer key : requiredMusicians.keySet()){
-            System.out.println(key.toString() + ":" + requiredMusicians.get(key));
-        }
         for (Musician m : conductor.getMusicians()){
             if (requiredMusicians.containsKey(m.getInstrumentID())){
                 requiredMusicians.replace(m.getInstrumentID(), requiredMusicians.get(m.getInstrumentID()) - 1);
             }
         }
-        for (Integer key : requiredMusicians.keySet()){
-            System.out.println(key.toString() + ":" + requiredMusicians.get(key));
-        }
 
-        // ensures that there are enough compositions
+        // ensures that there are enough musicians
         System.out.println("Validating musicians pool.");
         for (Integer key : requiredMusicians.keySet()){
             if (musicians.containsKey(key)){
