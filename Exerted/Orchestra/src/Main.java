@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Test command: java EcsBandAid data/musicians.morch data/compositions.corch 3
+        // Test command: java Main data/musicians.morch data/compositions.corch 3
         if (args.length == 3){
             // creates ecsBandAid
             SoundSystem soundSystem = new SoundSystem();
