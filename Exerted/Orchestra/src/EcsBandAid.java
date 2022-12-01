@@ -129,14 +129,6 @@ public class EcsBandAid {
         // finds out how many musicians we need to play all 3 compositions
         System.out.println("Checking how many musicians are required to play selected compositions.");
         HashMap<Integer, Integer> requiredMusicians = new HashMap<Integer, Integer>();
-        for (Musician m : conductor.getMusicians()){
-            if (requiredMusicians.containsKey(m.getInstrumentID())){
-                requiredMusicians.replace(m.getInstrumentID(), requiredMusicians.get(m.getInstrumentID()) - 1);
-            }
-            else{
-                requiredMusicians.put(m.getInstrumentID(), -1);
-            }
-        }
         for (Composition composition: compositionsToPlay){
 
             HashMap<Integer, Integer> tmp = new HashMap<Integer, Integer>();
@@ -159,7 +151,13 @@ public class EcsBandAid {
                     requiredMusicians.put(key, tmp.get(key));
                 }
             }
-
+        }
+        // offsets the found musician requirement by musician already in the band,this mean that musician
+        // that carry over to the next year will play and no replacement will be provided for them.
+        for (Musician m : conductor.getMusicians()){
+            if (requiredMusicians.containsKey(m.getInstrumentID())){
+                requiredMusicians.replace(m.getInstrumentID(), requiredMusicians.get(m.getInstrumentID()) - 1);
+            }
         }
 
         // ensures that there are enough compositions
