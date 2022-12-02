@@ -7,7 +7,6 @@ Extended directory contains the extended version of the coursework.
 ### Attempted pats
 Completion: 100.0%  
 All parts of the coursework where attempted and successfully completed.
-
 ### How to run
 #### Through Main.main
 Parameters struct: musiciansFile compositionsFile numberOfYearsToSimulate  
@@ -16,8 +15,6 @@ Class with main: Main
 Full command: java Main data/musicians.morch data/compositions.corch 3  
 #### Alternative
 Alternative you could run/test my code using some provide test in the main class through your ide.
-
-
 ### 5.2 Algorithm
 #### Overwrite
 Algorithm developed for part 5.2 looks at the requirements
@@ -107,13 +104,10 @@ for (Integer key: requiredMusicians.keySet()){
 }
 ```
 
-
-
 # Extended
 ### Completion of extension
 Completion: 100.0%  
 All aspects of the extension chosen has been fully implemented and tested.
-
 ### About extension
 The extended directory contains and impertinents save/load extension what allows for aborting simulation
 at any point (midway through playing a song) and saving data required to resume it at a later time in the exact
@@ -153,3 +147,52 @@ This class is a simple data structure used to easily pass saved progress data.
 - new variable: abort keep track of weather or not the simulation should be aborting
 - new variable: currentYear keep track of current year, needed for save operation
 - new variable: targetYear keep track of the amount of year to be simulated, needed for save operation
+- changed method: performForAYear extracted applyDropout code section into its own method so that it can be
+reused by resumeYear function.
+- new method: resumeYear can be used to resume simulation from a saved state
+- new method: save current state of the simulation to a file
+- new method: applyDropout applies dropout to each band member band
+- new method: resume resumes simulation from a saved state
+- new method: abortSimulation aborts/stops simulation (need to be called from external thread)
+- new method: hasAborted returns weather or not the simulation has been aborted
+- new method: reset resets the simulation to its initial state
+#### Changes to Main.java
+- changed method: updated main to use save and resume functionality
+### Save file format
+All saves follow this format:
+```
+TARGET_YEAR:3
+CURRENT_YEAR:1
+BAND_MEMBERS:Necron,Ultimecia,Gilgamesh,Bahamut,Richard,Emma,Ardyn,Jakub
+COMPOSITIONS:Weaker,Stronger,Stronger
+CURRENT_COMPOSITION:1
+CURRENTLY_PERFORMING:Necron:0,Ardyn:1,Ultimecia:2,Bahamut:3
+CURRENT_NOTE:5
+```
+- TARGET_YEAR: the amount of year to be simulated
+- CURRENT_YEAR: the current year of the simulation
+- BAND_MEMBERS: the musicians in the band
+- COMPOSITIONS: the compositions to be played
+- CURRENT_COMPOSITION: the current composition being played
+- CURRENTLY_PERFORMING: the musicians currently performing the current composition
+- CURRENT_NOTE: the current note being played in the current composition
+### How to use
+To save a simulation you need to call save() (from external thread 
+otherwise it will wait till the simulation is done before saving), optionally
+you can also call a abortSimulation() if you want to stop the simulation from
+execution (also needs to be called from external thead). To load adn resume
+progress of a simulation you simply call resume().
+
+
+### How to run
+#### Through Main.main
+Parameters struct: musiciansFile compositionsFile numberOfYearsToSimulate  
+Parameters: data/musicians.morch data/compositions.corch 3  
+Class with main: Main  
+Full command: java Main data/musicians.morch data/compositions.corch 3
+### Main explanation
+The main file will start the simulation then abort/save progress after 5 seconds
+of play, then it will wait 5 seconds before resuming the simulation from file.
+After 10 seconds after resuming it will abort/save progress to file again,
+wait 5 seconds and then resume the simulation from file again. This shows that
+the save and resume functionality works as intended.
