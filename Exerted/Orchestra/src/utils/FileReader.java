@@ -10,8 +10,8 @@ import java.util.*;
 
 public final class FileReader {
 
-    public final static String DEFAULT_COMPOSITION_DIR  = "data/compositions.corch";
-    public final static String DEFAULT_MUSICIANS_DIR= "data/musicians.morch";
+    public final static String DEFAULT_COMPOSITION_DIR  = "compositions.txt";
+    public final static String DEFAULT_MUSICIANS_DIR= "musicians.txt";
 
     /**
      * Loads musicians from a given file to an array of Musicians.
@@ -22,7 +22,7 @@ public final class FileReader {
      */
     public static Musician[] loadMusicians(String dir, SoundSystem soundSystem){
         try {
-            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(dir));
+            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader("data/" + dir));
             try{
                 List<Musician> musicians = new ArrayList<Musician>();
                 String line;
@@ -48,7 +48,7 @@ public final class FileReader {
      */
     public static List<Composition> loadCompositions(String dir){
         try {
-            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(dir));
+            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader("data/" + dir));
 
             List<Composition> musicSheets = new ArrayList<Composition>();
             String line;
@@ -98,7 +98,7 @@ public final class FileReader {
         // reads the raw data from the file
         Map<String, String> data = new HashMap<String, String>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(dir));
+            BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader("data/" + dir));
             String line;
             while ((line = bufferedReader.readLine()) != null){
                 String[] parts = line.split(":");

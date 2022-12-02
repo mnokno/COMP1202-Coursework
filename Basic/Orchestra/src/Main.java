@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Test command: java EcsBandAid data/musicians.morch data/compositions.corch 3
+        // Test command: java EcsBandAid musicians.txt compositions.txt 3
         if (args.length == 3){
             SoundSystem soundSystem = new SoundSystem();
             EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,

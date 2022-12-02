@@ -1,0 +1,32 @@
+Name : Never gonna give you up
+Tempo : Allegro
+Length : 10
+Piano , soft , { A3 , B3 , D4 , B3 , F #4 , none , F #4 , none , E4 , none }
+Violin , soft , { A3 , B3 , D4 , B3 , F #4 , none , F #4 , none , E4 , none }
+Violin , loud , { A3 , B3 , D4 , B3 , F #4 , none , F #4 , none , E4 , none }
+Cello , soft , { A3 , B3 , D4 , B3 , F #4 , none , F #4 , none , E4 , none }
+
+Name : Will give you up
+Tempo : Presto
+Length : 11
+Piano , soft , { G3 , A3 , none, A4 , D3 , F #4 , none , F #4 , none , C4 , none }
+Violin , soft , { G3 , A3 , none, A4 , D3 , F #4 , none , F #4 , none , C4 , none }
+Violin , soft , { A3 , B3 , A4 , D3 , F #4 , none , F #4 , none , C4 , none }
+Cello , loud , { A3 , B3 , A4 , D3 , F #4 , none , F #4 , none , C4 , none }
+Cello , loud , { G3 , A3 , none, A4 , D3 , F #4 , none , F #4 , none , C4 , none }
+Cello , soft , { A3 , B3 , A4 , D3 , F #4 , none , F #4 , none , C4 , none }
+
+Name : Stronger
+Tempo : Moderato
+Length : 13
+Piano , soft , { C3 , D3 , E4 , F3 , F #4 , none , F #4 , none , B4 , none, G3, C4, D4 }
+Piano , soft , { C3 , D3 , E4 , F3 , F #4 , none , F #4 , none , B4 , none, G3, C4, D4 }
+Violin , loud , { C3 , D3 , E4 , F3 , F #4 , none , F #4 , none , B4 , none, G3, C4, D4 }
+Cello , soft , { C3 , D3 , E4 , F3 , F #4 , none , F #4 , none , B4 , none, G3, C4, D4 }
+
+Name : Weaker
+Tempo : Andante
+Length : 13
+Piano , soft , { D3 , E3 , F4 , G3 , F1 , none , F #4 , none , E4 , none, A3, none, B4 }
+Violin , soft , { D3 , E3 , F4 , G3 , F1 , none , F #4 , none , E4 , none, A3, none, B4 }
+Cello , soft , { D3 , E3 , F4 , G3 , F1 , none , F #4 , none , E4 , none, A3, none, B4 }

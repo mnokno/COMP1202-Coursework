@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import people.Person;
 import people.conductors.Conductor;
 import people.musicians.*;
+import utils.FileReader;
 import utils.SoundSystem;
 import utils.Tables;
 
@@ -17,6 +18,26 @@ public class EcsBandAid {
     private HashMap<Integer, List<Musician>> musicians;
     private List<Composition> compositions;
     private Conductor conductor;
+
+    public static void main(String[] args) throws Exception {
+        // Test command: java EcsBandAid musicians.txt compositions.txt 3
+        if (args.length == 3){
+            SoundSystem soundSystem = new SoundSystem();
+            System.out.println(args[0]);
+            System.out.println(args[1]);
+            System.out.println(args[2]);
+            System.out.println(Arrays.stream(FileReader.loadMusicians(args[0], soundSystem)).count());
+            System.out.println(FileReader.loadCompositions(args[1]).size());
+
+            EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
+                    Arrays.stream(FileReader.loadMusicians(args[0], soundSystem)).iterator(),
+                    FileReader.loadCompositions(args[1]).iterator());
+            ecsBandAid.performForYears(Integer.parseInt(args[2]));
+        }
+        else{
+            throw new Exception("The main method expected 3 parameter, instated got " + args.length + "!");
+        }
+    }
 
     /**
      * Basic EcsBandAid constructor
