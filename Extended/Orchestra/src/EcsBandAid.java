@@ -416,7 +416,7 @@ public class EcsBandAid {
         System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
 
         try {
-            FileWriter fileWriter = new FileWriter("data/midExecutionSave.porch");
+            FileWriter fileWriter = new FileWriter("data/" + FileReader.DEFAULT_MIDEXECUTIONSAVE_FILENAME);
             fileWriter.write(data);
             fileWriter.close();
         } catch (IOException e) {
@@ -451,7 +451,7 @@ public class EcsBandAid {
     public void resume() throws Exception {
         abort = false;
         reset();
-        PORCHData porchData = FileReader.loadPORCHData("data/midExecutionSave.porch");
+        PORCHData porchData = FileReader.loadPORCHData(FileReader.DEFAULT_MIDEXECUTIONSAVE_FILENAME);
         currentYear = porchData.currentYear;
         targetYear = porchData.targetYear;
 

@@ -12,8 +12,8 @@ import java.util.List;
 
 public final class FileReader {
 
-    public final static String DEFAULT_COMPOSITION_DIR  = "compositions.txt";
-    public final static String DEFAULT_MUSICIANS_DIR= "musicians.txt";
+    public final static String DEFAULT_COMPOSITION_FILENAME  = "compositions.txt";
+    public final static String DEFAULT_MUSICIANS_FILENAME = "musicians.txt";
 
     /**
      * Loads musicians from a given file to an array of Musicians.

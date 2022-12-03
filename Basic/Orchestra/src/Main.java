@@ -146,8 +146,8 @@ public class Main {
     public void Part6Test() throws Exception {
         SoundSystem soundSystem = new SoundSystem();
         EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
-                Arrays.stream(FileReader.loadMusicians(FileReader.DEFAULT_MUSICIANS_DIR, soundSystem)).iterator(),
-                FileReader.loadCompositions(FileReader.DEFAULT_COMPOSITION_DIR).iterator());
+                Arrays.stream(FileReader.loadMusicians(FileReader.DEFAULT_MUSICIANS_FILENAME, soundSystem)).iterator(),
+                FileReader.loadCompositions(FileReader.DEFAULT_COMPOSITION_FILENAME).iterator());
         ecsBandAid.performForAYear();
     }
 
@@ -155,8 +155,8 @@ public class Main {
     public void ECS10YearsTest() throws Exception {
         SoundSystem soundSystem = new SoundSystem();
         EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
-                Arrays.stream(FileReader.loadMusicians(FileReader.DEFAULT_MUSICIANS_DIR, soundSystem)).iterator(),
-                FileReader.loadCompositions(FileReader.DEFAULT_COMPOSITION_DIR).iterator());
+                Arrays.stream(FileReader.loadMusicians(FileReader.DEFAULT_MUSICIANS_FILENAME, soundSystem)).iterator(),
+                FileReader.loadCompositions(FileReader.DEFAULT_COMPOSITION_FILENAME).iterator());
         ecsBandAid.performForYears(10);
     }
 }
