@@ -8,11 +8,11 @@ Extended directory contains the extended version of the coursework.
 Completion: 100.0%  
 All parts of the coursework where attempted and successfully completed.
 ### How to run
-#### Through Main.main
+#### Through EcsBandAid.main
 Parameters struct: musiciansFile compositionsFile numberOfYearsToSimulate  
-Parameters: data/musicians.morch data/compositions.corch 3  
-Class with main: Main  
-Full command: java Main data/musicians.morch data/compositions.corch 3  
+Parameters: musicians.txt compositions.txt 3  
+Class with main method: EcsBandAid  
+Full command: java EcsBandAid musicians.txt compositions.txt 3
 #### Alternative
 Alternative you could run/test my code using some provide test in the main class through your ide.
 ### 5.2 Algorithm
@@ -185,11 +185,11 @@ progress of a simulation you simply call resume().
 
 
 ### How to run
-#### Through Main.main
+#### Through EcsBandAid.main
 Parameters struct: musiciansFile compositionsFile numberOfYearsToSimulate  
-Parameters: data/musicians.morch data/compositions.corch 3  
-Class with main: Main  
-Full command: java Main data/musicians.morch data/compositions.corch 3
+Parameters: musicians.txt compositions.txt 3  
+Class with main method: EcsBandAid  
+Full command: java EcsBandAid musicians.txt compositions.txt 3  
 ### Main explanation
 The main file will start the simulation then abort/save progress after 5 seconds
 of play, then it will wait 5 seconds before resuming the simulation from file.

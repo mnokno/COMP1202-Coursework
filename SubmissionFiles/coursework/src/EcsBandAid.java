@@ -23,12 +23,6 @@ public class EcsBandAid {
         // Test command: java EcsBandAid musicians.txt compositions.txt 3
         if (args.length == 3){
             SoundSystem soundSystem = new SoundSystem();
-            System.out.println(args[0]);
-            System.out.println(args[1]);
-            System.out.println(args[2]);
-            System.out.println(Arrays.stream(FileReader.loadMusicians(args[0], soundSystem)).count());
-            System.out.println(FileReader.loadCompositions(args[1]).size());
-
             EcsBandAid ecsBandAid = new EcsBandAid(soundSystem,
                     Arrays.stream(FileReader.loadMusicians(args[0], soundSystem)).iterator(),
                     FileReader.loadCompositions(args[1]).iterator());
