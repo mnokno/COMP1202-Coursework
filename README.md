@@ -1,5 +1,5 @@
 # COMP1202-Coursework
-Full solution for COMP1202 coursework year 2022.  
+Full solution for COMP1202 coursework, year 2022.  
 Basic directory contain the basic solution.  
 Extended directory contains the extended version of the coursework.  
 
